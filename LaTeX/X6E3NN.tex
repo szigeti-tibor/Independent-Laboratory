@@ -1,54 +1,73 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage{t1enc}
+\usepackage[T1]{fontenc}
 \usepackage[magyar]{babel}
 \usepackage{graphicx}
 \usepackage{geometry}
- \geometry{ a4paper, textwidth=180mm, textheight=257mm, left=15mm, top=20mm, bottom=25mm}
+\geometry{a4paper, margin=35mm, headheight=15mm}
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
+
 \pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\sc Vesetranszplantációs cserekörök egészértékű programozással}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
 
-\chead{\includegraphics[height=15mm]{bme_logo_kicsi}}
+\begin{document}
 
-\fancyfoot[C]{\footnotesize\sl
-\begin{tabular}{r|l} 
-Budapesti Műszaki és Gazdaságtudományi Egyetem&1117 Budapest, Magyar tudósok körútja 2. I.B.132.\\
-Villamosmérnöki és Informatikai Kar&Telefon: 463-2585, Fax: 463-3157\\
-Számítástudományi és Információelméleti Tanszék&http:\textbackslash\textbackslash www.cs.bme.hu\\
-\end{tabular}}
-\renewcommand{\headrulewidth}{0.4pt}\renewcommand{\footrulewidth}{0.4pt}
-
-\begin{document} \ \
-\vspace{2mm}
+%% --------------------------------------------------------
+%% Előlap
+%% --------------------------------------------------------
+\begin{titlepage}
+\thispagestyle{empty}
 \begin{center}
-{\Large\sc
-%%%% Szakdolgozat vagy diploma vagy önálló laboratórium
-Önálló laboratórium\\[5mm]
-%Szakdolgozat feladat\\[5mm]
-%Diploma feladat\\[5mm]
-%%%%
-\bf 
-%%%% Név
-Szigeti Tibor
-%%%%
-\\
-{\it\normalsize 
-%%%% Szak
-Mérnökinformatikus hallgató részére
-%%%% 
-}\\[10mm]
-\Large \vfill
-%%%% Cím
+
+\includegraphics[height=18mm]{bme_logo_kicsi}
+
+\vspace{2cm}
+
+{\large\sc BSc Önálló Laboratórium Beszámoló}
+
+\vspace{1.5cm}
+
+{\LARGE\bf
 Orvosi kritériumoknak megfelelő vesetranszplantációs cserekörök meghatározása egészértékű programozással
-%%%%
 }
-\end{center}
+
+\vspace{1.5cm}
+
+{\large Szigeti Tibor}
+
 \vspace{1cm}
 
-\tableofcontents
+{\large Tanszéki konzulens: Nemkin Viktória}\\[0.3cm]
+% {\large Külső konzulens: Biró Péter}
 
-%%%% Feladat szövege
+\vfill
+
+{\sc Budapesti Műszaki és Gazdaságtudományi Egyetem\\
+Villamosmérnöki és Informatikai Kar\\
+Számítástudományi és Információelméleti Tanszék}
+
+\vspace{0.8cm}
+
+{\large Budapest, \the\year}
+
+\end{center}
+\end{titlepage}
+
+%% --------------------------------------------------------
+%% Tartalomjegyzék
+%% --------------------------------------------------------
+\tableofcontents
+\newpage
+
+%% --------------------------------------------------------
+%% Tartalom
+%% --------------------------------------------------------
+
 \section{Bevezetés}
 A laboratórium témája a vesetranszplantációs cserekörök meghatározására próbál megoldást adni. Ötletének forrása a páneurópai vesecsere program.
 
@@ -221,24 +240,6 @@ Ezek a kérdések az egyes nemzeti programokra, az országok közötti együttm�
 	\textit{Válasz:} Minden javasolt szempont figyelembe vétele tervezett: országok szerinti részstatisztikák, érzékenyített betegek (cPRA\,>\,90\%), vércsoportok (különösen O-csoport), korcsoportok.
 
 \end{enumerate}
-
-%%%% Konzulensek
-\textbf{Tanszéki konzulens:}	Nemkin Viktória
-
-\textbf{Külső konzulens:}	Biró Péter (ELTE tudományos főmunkatárs)
-
-
-\vspace{1cm}\vfill
-Budapest, \today
-\begin{flushright}
-\begin{minipage}{0.5\textwidth}
-\begin{center}
-	Wiener Gábor\\
-	\textit{tanszékvezető}
-\end{center}
-\end{minipage}
-\end{flushright}
-\vfill
 
 \section{Adathalmaz-elemzés}
 
