@@ -7,6 +7,8 @@
 \geometry{a4paper, margin=35mm, headheight=15mm}
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
+\usepackage[numbers]{natbib}
+\usepackage{subcaption}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -284,5 +286,23 @@ Ha a recipiens kora (rage) is megvolna, a donor--recipiens korkülönbség beép
 A hasBloodCompatibleDonor jelző alapján a kompatibilis párok azonosíthatók, és más belépési feltételekkel kezelhetők: csak akkor lépnek be a KEP-be, ha a csere minőségi javulást hoz, és legfeljebb 1--3 futtatáson maradnak.
 
 A cPRA-ból per-él lemondási valószínűség számítható. Ekkor az objektív nem a nyers score-t, hanem a várható értéket maximalizálja, azaz a score és az 1 mínusz a lemondási valószínűség szorzatát.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.42\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Figures/cycle}
+    \caption{Example of a cycle~\cite[Figure~1]{barkel2026}.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.54\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{Figures/chain}
+    \caption{Example of a chain~\cite[Figure~2]{barkel2026}.}
+  \end{subfigure}
+\end{figure}
+
+\bibliographystyle{abbrvnat}
+\bibliography{X6E3NN}
 
 \end{document}
