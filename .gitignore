@@ -1,5 +1,11 @@
-# Ignore LaTeX build artifacts
+# LaTeX build artifacts
 /LaTeX/out/
 
 # Input files
 KEP_Survey_Experimentation_Instances/
+
+# Generated code output
+/code/out/
+
+# A pyvis által generált függőségek mappája
+lib/

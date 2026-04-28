@@ -71,183 +71,60 @@ Számítástudományi és Információelméleti Tanszék}
 \section{Bevezetés}
 A laboratórium témája a vesetranszplantációs cserekörök meghatározására próbál megoldást adni. Ötletének forrása a páneurópai vesecsere program.
 
+\subsection{Szakkifejezések}
+\begin{itemize}
+	\item Recipient-donor pair (RDP) - recipiens-donor pár
+	
+	A modellező gráfban is megjelenített ábrán a csúcspontokat alapvetően két személy alkotja. Egy donor és egy recipiens pár.
+
+	\item Non-directed donors (NDD) / altruistic donors - altruista donor vagy önzetlen donor
+	
+	Olyan élő donor, aki nem egy konkrét személynek (például rokonnak vagy barátnak), hanem az országos/nemzetközi várólistán szereplő bármely rászoruló számára ajánlja fel a szervét.
+\end{itemize}
+
 \subsection{Modellező gráf}
 Két ember egy pont, ami egy donort és egy recipienst jelent. A súlyozott, irányított élek a köztük lévő potenciális csere erőssége.
+
+\begin{tabular}{c c}
+\includegraphics[width=62mm]{../docs/RDP-3pair-cycle} & \includegraphics[width=62mm]{../docs/RDP-3pair-chain} \\
+\end{tabular}
 
 \subsection{Kezdeti kérdések}
 Ahhoz, hogy a projekt használhatósága és a valóságot minél jobban modellező szemlélete megmaradjon az alábbi kérdéseket, majd válaszokat gyűjtöttem össze. Ezek segítenek a modell kialakítása során megtalálni a szükséges paramétereket és értékkészletüket.
 
-\begin{enumerate}
-
-	\item Támogatja-e Magyarország anyagilag a vesetranszplantációt?
-
-	\textit{Forrás:} A NEAK (Nemzeti Egészségbiztosítási Alapkezelő) finanszírozási protokolljainál kereshető a pontos eljárásrend: \href{https://www.neak.gov.hu/felso_menu/szakmai_oldalak/finanszirozasi_protokollok}{neak.gov.hu -- finanszírozási protokollok}.
-
-	\item Mennyit kell fizetniük a magyar állampolgároknak?
-
-	\textit{Forrás:} A kötelező egészségbiztosítás keretében a vesetranszplantáció díjmentes a beteg számára; részletek: \href{https://www.neak.gov.hu/felso_menu/lakossagnak/ellatas_magyarorszagon}{neak.gov.hu -- Ellátás Magyarországon}.
-
-	\item Országokon átívelő csere során az utazás biztosított-e?
-
-	\textit{Forrás:} Az európai programok szervezési keretét az EDQM állásfoglalása tárgyalja: \href{https://www.edqm.eu/documents/52006/162284/Kidney+exchange+programmes+in+Europe+\%28August+2018\%29.pdf/473d6195-7f37-a4c1-ecde-73e800e9f6ce}{EDQM -- Kidney exchange programmes in Europe (2018)}.
-
-	\item Milyen egyéb anyagi költségei lehetnek a cserének?
-
-	\textit{Forrás:} Az európai programok szervezési kérdéseit az EDQM Position Paper és a \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC6613834/}{Building Kidney Exchange Programmes in Europe (PMC6613834)} cikk tárgyalja.
-
-	\item Ez alapján mennyire befolyásolja a csere erősségét a ráfordítandó önerő?
-
-	\textit{Forrás:} 23 ország kormánya fedezi az élődonorok közvetlen és közvetett (utazás, elmaradt kereset) kiadásait, így az önerő nem akadályozó tényező, és az élsúlyozásban orvosi kritériumok (HLA-egyezés, PRA, várakozási idő) kapnak nagyobb szerepet: \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC7430320/}{Impact of country reimbursement programmes on living kidney donations (PMC7430320)} és \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC6287873/}{Financial Costs Incurred by Living Kidney Donors (PMC6287873)}.
-
-	\item Mekkora a magyarországi KEP aktív pár-pooljának átlagos mérete, és hogyan változik ez az idő múlásával?
-
-	\textit{Forrás:} Magyarországon 2024-ben 26 élődonoros veseátültetés történt; a KEP-program 2025-ben indul az OVSZ szervezésével: \href{https://www.economx.hu/magyar-gazdasag/transzplantacio-vesebetegek-kutatok-megoldas-hun-ren-krtk.794000.html}{Economx.hu -- Már idén elindulhat egy új párkereső}. Európai összehasonlítás (az UK program $\sim$250, a spanyol $\sim$110 párral működik futtatásonként): \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC6613834/}{Building KEPs in Europe (PMC6613834)}.
-
-	\item Milyen gyakran tartanak párosítási futtatást (matching run), és ez hogyan hat a modell dinamikájára?
-
-	\textit{Forrás:} Az európai programok többsége negyedévente (évi 4-szer) tart párosítási futtatást. Részletes összehasonlítás: \href{https://www.edqm.eu/documents/52006/162284/Kidney+exchange+programmes+in+Europe+\%28August+2018\%29.pdf/473d6195-7f37-a4c1-ecde-73e800e9f6ce}{EDQM Position Paper (2018)} és \href{https://link.springer.com/article/10.1007/s10100-024-00914-3}{ENCKEP simulator -- Springer (2024)}.
-
-	\item Mekkora a megengedett maximális cserekör-hossz (pl.\ 2-es vagy 3-as ciklus), és mi indokolja ezt a korlátot?
-
-	\textit{Forrás:} Az európai programok többsége legfeljebb 3 transzplantációból álló ciklust enged meg, mivel hosszabb ciklusoknál az egyidejű műtéti koordináció logisztikailag nehéz. Részletesen: \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC6613834/}{Building KEPs in Europe (PMC6613834)}.
-
-	\item Hogyan épül fel a kompatibilitási gráf -- milyen feltételek alapján kerül él két csomópont közé (vércsoport, HLA, keresztpróba)?
-
-	\textit{Forrás:} Él kerül $d \to r'$ irányba, ha $d$ donor vércsoportilag kompatibilis $r'$ recipienssel és a virtuális keresztpróba negatív (nincs donor-specifikus antitest). Részletesen: \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC7928410/}{KEP Reporting Standards Europe (PMC7928410)}.
-
-	\item Milyen valószínűséggel inkompatibilis két véletlenszerűen választott donor--recipiens pár?
-
-	\textit{Forrás:} A KEP-be belépő párok definíció szerint inkompatibilisek; véletlen párok közt a vércsoporti inkompatibilitás $\sim 30\%$. PRA\,>\,85\%-os betegeknél az elfogadható donorok aránya akár 1--2\% is lehet: \href{https://en.wikipedia.org/wiki/Panel-reactive_antibody}{Panel-reactive antibody -- Wikipedia} és \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC7928410/}{KEP Reporting Standards (PMC7928410)}.
-
-	\item Milyen PRA-eloszlás (Panel Reactive Antibody) jellemzi a jelenlegi várólistát, és ez hogyan befolyásolja az elfogadható donorok számát?
-
-	\textit{Forrás:} A várólistán lévők több mint 30\%-a érzékenyített; a PRA\,>\,85\% tekinthető erősen érzékenyítettnek. Részletes elemzés: \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC7928410/}{KEP Reporting Standards Europe (PMC7928410)} és \href{https://journals.lww.com/transplantjournal/abstract/2018/07001/panel_reactive_antibody_positivity_and_associated.911.aspx}{Transplantation -- PRA Positivity (2018)}.
-
-	\item Mekkora a cserék tényleges meghiúsulási aránya (pl.\ utólagos keresztpróba eredménye alapján), és ez hogyan épülhet be a modell súlyozásába?
-
-	\textit{Forrás:} A virtuális keresztpróba alapján kiválasztott cseréknél a laboratóriumi keresztpróba 5--10\%-ban pozitív (váratlan meghiúsulás); egyes programokban az összesített meghiúsulási arány $\sim$28\%. Részletek: \href{https://link.springer.com/article/10.1007/s10100-023-00880-2}{ENCKEP re-optimisation -- Springer (2023)} és \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC7928410/}{KEP Reporting Standards (PMC7928410)}.
-
-	\item Milyen súlyozási vagy pontszám-rendszert alkalmaz jelenleg a program a párok rangsorolásához (pl.\ várakozási idő, érzékenyítettség foka, életkor)?
-
-	\textit{Forrás:} Az európai programok eltérő hierarchikus optimalizálást alkalmaznak; összehasonlítás: \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC6613834/}{Building KEPs in Europe (PMC6613834)} és \href{https://ifaamas.org/Proceedings/aamas2019/pdfs/p413.pdf}{Biró et al.\ -- Generalized Matching Games (AAMAS 2019)}.
-
-	\item Rendelkezésre állnak-e anonimizált historikus adatok a modell validálásához, és ha igen, milyen változókat tartalmaznak?
-
-	\textit{Forrás:} Az EURO-KEP projekt partnerektől gyűjt historikus adatokat; az adatkövetelmények részletei: \href{https://link.springer.com/article/10.1007/s10100-024-00914-3}{ENCKEP simulator -- Springer (2024)}.
-
-\end{enumerate}
-
-\subsubsection{Egyéni kérdések}
-Ezek a kérdések az egyes betegekre, donorokra és párokra vonatkozó paramétereket és irányelveket érintik.
-\begin{enumerate}
-
-	\item Szükséges-e elemezni a híddonorok alkalmazásának lehetőségét?
-
-	\textit{Válasz:} Igen. A tesztelendő beállítások közt szerepel a Bridge változat (híddonor lehetősége). Alapbeállítás: a lánc utolsó párja az NDAD origójával azonos ország állampolgára.
-
-	\item Van-e szükség specifikus irányelvre arra az esetre, ha nem minden ország biztosít nem irányított altruista donort (NDAD)? Ha igen, melyiket/melyeket?
-
-	\textit{Válasz:} Igen, két beállítás vizsgálandó: NDAD-1 (csak egy ország biztosít NDAD-ot) és NDAD-All (minden ország biztosít NDAD-ot).
-
-	\item Milyen korlátozásokat javasol az általános láncokra és a híddonorokra vonatkozóan (pl.\ a lánc az NDAD-ot biztosító ország határain belül végződjön-e)?
-
-	\textit{Válasz:} Alapbeállítás: a lánc utolsó párja az NDAD origójával azonos ország állampolgára. Hosszabb láncokkal is tesztelnek az alapértelmezett 3-as maximumon felül.
-
-	\item Lehetséges-e a kompatibilis párokat megjelölni az adathalmazban?
-
-	\textit{Válasz:} A partnerek visszajelzése alapján igen, az adathalmazban megjelölhetők a kompatibilis párok.
-
-	\item Szükséges-e minőségi szűrést alkalmazni a potenciális kompatibilis donorokra (pl.\ HLA-egyezés, kor, ABOc vagy LKDPI alapján)?
-
-	\textit{Válasz:} Igen. Alapbeállítás: kompatibilis párnak csak akkor érdemes KEP-be lépni, ha a csere javít a donor minőségén (donorkor, HLA-egyezés és/vagy komplex minőségi pontszám alapján).
-
-	\item Mennyi az átlagos idő, amelyet egy kompatibilis pár a KEP-ben tölt a közvetlen transzplantáció előtt? Érdemes-e maximális várakozási időt meghatározni az ilyen párok számára?
-
-	\textit{Válasz:} Tesztelendő beállítások: kompatibilis párok 1, 2 vagy 3 párosítási futtatáson maradnak, mielőtt közvetlen transzplantációra kerül sor.
-
-	\item Szükséges-e specifikus irányelvet alkalmazni az ABO-inkompatibilis, de HLA-kompatibilis párokra, vagy kompatibilis párokként kell-e őket kezelni?
-
-	\textit{Válasz:} Ebben a vizsgálati fázisban az ABOi transzplantációkat nem elemzik; ezek a párok kompatibilis párokként kezelhetők.
-
-	\item Engedélyezni kell-e az ABO-inkompatibilis transzplantációkat a cserékben?
-
-	\textit{Válasz:} A partnerek összesített válasza alapján az ABOi transzplantációkat ebben a vizsgálati fázisban nem tervezik elemezni.
-
-	\item Milyen konkrét kritériumokat javasol a transzplantáció minőségének mérésére (pl.\ HLA-egyezés, koregyezés, ABOc, LKDPI)?
-
-	\textit{Válasz:} Mindhárom javasolt megközelítést implementálják: Eurotransplant (HLA-A, -B, -DR, 0--6-os mismatch pontszám), UKLKSS (négy graft-túlélési szint szerinti osztályozás), HLA Working Group (A, B, C, DR, DQ split szinten). Az LKDPI-index közelítő értékkel szerepel.
-
-	\item Hogyan kell kiszámítani a HLA-egyezést, és hogyan kell kezelni a különböző lókuszok közötti differenciálást?
-
-	\textit{Válasz:} Három megközelítés: (1)~Eurotransplant: HLA-A és -B broad felbontáson, HLA-DR split szinten, 0--6-os mismatch pontszám. (2)~UKLKSS: négy, graft-túlélés szempontjából releváns mismatch szint (HLA-A, -B, -DR alapján). (3)~HLA Working Group: A, B, C, DR, DQ antigének split szinten.
-
-\end{enumerate}
-
-\subsubsection{Országos kérdések}
-Ezek a kérdések az egyes nemzeti programokra, az országok közötti együttműködési politikákra és a páneurópai KEP hatékonyságvizsgálatára vonatkoznak.
-\begin{enumerate}
-
-	\item Az ismertetett együttműködési stratégiák közül melyek a legfontosabbak a számítási hatékonyság elemzéséhez, és melyeket lehet esetleg kihagyni? Vannak-e további együttműködési keretek vagy irányelvek, amelyeket figyelembe kellene venni?
-
-	\textit{Válasz:} Tesztelendő politikák: (1)~Nincs együttműködés; (2)~Szekvenciális pool (szűréssel / választott futtatásokkal / összes fennmaradó párral); (3)~Vegyes pool (egyik vagy mindkét fél teljes poolt nyújt be); (4)~Teljes összevonás (merged pools).
-
-	\item Milyen alternatív irányelveket javasol az összes résztvevő közötti méltányosság biztosítása érdekében?
-
-	\textit{Válasz:} Az Egyéni Racionalitás (IR) nyomon követése javasolt: minden ország legalább annyit nyerjen az együttműködésből, mint amennyit önálló nemzeti program futtatásával érne el. Ez az IR-feltétel az egyensúly vizsgálatának alapja.
-
-	\item A felsorolt optimalizálási kritériumok közül melyek relevánsak egy páneurópai KEP esetén?
-
-	\textit{Válasz:} Három politikacsomag vizsgálandó: \textit{Light} (transzplantációk maximalizálása, cserék rövidítése, belső ciklusok preferálása); \textit{Light-Equity} (+ érzékenyített betegek és hosszú várakozók prioritása); \textit{Score} (komplex pontszám: PRA, HLA, kor, belső ciklusok).
-
-	\item Hogyan alkalmazná ezeket a kritériumokat (pl.\ hierarchikus sorrendben vagy súlyozva)? Kérem, adjon fontossági sorrendet a saját szempontjából!
-
-	\textit{Válasz:} Hierarchikus optimalizálás vagy súlyozott összeg alkalmazandó. Az utazási távolság nem optimalizálási kritériumként, hanem csak kiértékelési mérőszámként szerepel (fővárosok távolsága alapján közelítve).
-
-	\item Javasol-e további optimalizálási feltételeket?
-
-	\textit{Válasz:} Back-arc szempontok: a ciklusokon belüli belső élek (back-arc) számának maximalizálása extra kritériumként szerepelhet, különösen lemondási kockázat esetén.
-
-	\item Javasol-e egyéb beállítási lehetőségeket a cserehosszra vagy láncra vonatkozó megszorítások tekintetében?
-
-	\textit{Válasz:} Hosszabb NDAD-láncok tesztelése tervezett az alapértelmezett 3-as maximumon felül.
-
-	\item A transzplantáció lemondásának lehetőségét be kellene-e vonni a hatékonyságvizsgálatokba, vagy külön kellene elemezni? Ha igen, milyen körülmények között tartja ezt szükségesnek?
-
-	\textit{Válasz:} Tesztelendő beállítások: (1)~Nincs lemondás; (2)~Fix százalékos lemondás; (3)~PRA-alapú egyedi lemondási valószínűség; (4)~Recourse politika (beágyazott 2-ciklus aktiválása, ha nagyobb ciklus meghiúsul).
-
-	\item Mik a lemondások okai, és milyen gyakran fordulnak elő?
-
-	\textit{Válasz:} Főbb okok: hamis negatív virtuális keresztpróba (pozitív laboratóriumi crossmatch), transzplantációs centrum visszautasítása, a pár kezelése a KEP-en kívül. A paraméterértékeket a partnerek válaszai alapján közelítik.
-
-	\item Milyen eljárások vannak érvényben alternatív transzplantációs lehetőségek azonosítására lemondás esetén (reoptimalizálás)?
-
-	\textit{Válasz:} Recourse politika: ha egy nagyobb ciklus meghiúsul, a beágyazott 2-ciklus (back-arc) megvalósítható alternatívaként szolgál. A reoptimalizálás és back-arc stratégiák vizsgálata szerepel a tervezett tanulmányokban.
-
-	\item Alkalmaznak-e belső ciklusokat (back-arc-okat) a mentési stratégiákban (pl.\ az Egyesült Királyságban)?
-
-	\textit{Válasz:} Az Egyesült Királyság programjában alkalmazzák. A back-arc alapú recourse politika vizsgálata szerepel a tervezett tanulmányokban.
-
-	\item Ha a lemondás oka hamis negatív virtuális keresztpróba, segíthetnek-e a dedikált HLA-központokkal végzett laboratóriumi vizsgálati eljárások?
-
-	\textit{Válasz:} A dokumentum nyílt kérdésként kezeli; a laboratóriumi protokollok fejlesztése és dedikált HLA-központok bevonása csökkentheti a hamis negatív virtuális keresztpróbák számát.
-
-	\item Javasol-e más hatékonysági vagy méltányossági mérőszámokat a páneurópai KEP efficacy studies vizsgálatához?
-
-	\textit{Válasz:} Minden javasolt mérőszámot implementálnak: transzplantációk száma, minősége, átlagos várakozási idő, transzplantáció valószínűsége adott időn belül, KEP-ből transzplantáció nélkül kilépők aránya.
-
-	\item A méltányossági mérőszámok közül (országok, érzékenyített betegek, vércsoportok, korcsoportok) melyek a legfontosabbak?
-
-	\textit{Válasz:} Minden javasolt szempont figyelembe vétele tervezett: országok szerinti részstatisztikák, érzékenyített betegek (cPRA\,>\,90\%), vércsoportok (különösen O-csoport), korcsoportok.
-
-\end{enumerate}
-
-\section{Adathalmaz-elemzés}
-
-Az adathalmaz a KEP\_Survey\_Experimentation\_Instances mappában található, UK 2019-es adatok alapján szintetikusan generált JSON-fájlokból áll. A fájlnév paraméterei: alt a nem irányított donorok aránya, size a recipiensek száma (50, 100, 200, 500, 750, 1000), run pedig az adott paraméterbeállítás 10 véletlen példányának sorszáma.
+\emph{Összefoglalás}
+
+\section{Felhasznált adathalmaz}
+
+A kezdeti kérdések alapján körvonalazódott modellezéshez a \href{https://researchdata.gla.ac.uk/1878/}{University of Glasgow vesecsere programok optimalizálásához szintetikusan előállított adathalmazát} használom fel, valamint bővítem ki.
+
+\subsection{Adathalmaz jellemzése}
+
+Tartalmaz egyes szintetikusan generált eseteket és felhasználási módja közé tartozik tesztelni és összehasonlítani különféle vesecsere program optimalizáló technikákat.
+
+180 darab különböző vesecsere probléma esetet tartalmaz JSON formátumban. A JSON fájlok nevei egyben megadják az adott eset paramétereit is.
+A nevek eleje egységesen:
+uk\_2019\_splitpra\_bandxmatch\_pra0\_pdd,
+majd egy alsóvonás jellel elválasztva követi az
+<alt>\_<size>-<iteration>.json szöveg.
+A relációs jelek közé írt értékek jelentése:
+\begin{itemize}
+	\item alt - altruista donorok aránya
+	
+	Értékkészlet: 0.05, 0.10, 0.20
+
+	\item size - recipiensek száma
+	
+	Értékkészlet: 50, 100, 200, 500, 750, 1000
+
+	\item iteration - különböző véletlenszerű esetek
+	
+	Értékkészlet: 0-9
+\end{itemize}
 
 \subsection{Jelenlegi adatmezők}
 
-Minden JSON-fájl két fő részből áll. A donor-oldal (data) tartalmazza a dage mezőt (donor kora), a bloodtype mezőt (vércsoport: A, B, O vagy AB), az altruistic jelzőt (nem irányított donor-e), a sources mezőt (a hozzákapcsolt recipiens azonosítója, altruistáknál hiányzik), valamint a matches tömböt, amely az éleket írja le: minden él egy recipiens azonosítóból és egy score értékből áll. Ez utóbbi egy 0--100 közötti, előre aggregált kompatibilitási pontszám, valószínűleg UKLKSS-alapú HLA-mismatch érték.
+Minden JSON-fájl két fő részből áll. A donor-oldal (data) tartalmazza a dage mezőt (donor kora), a bloodtype mezőt (vércsoport: A, B, O vagy AB), az altruistic jelzőt (altruista donor-e), a sources mezőt (a hozzákapcsolt recipiens azonosítója, altruistáknál hiányzik), valamint a matches tömböt, amely az éleket írja le: minden él egy recipiens azonosítóból és egy score értékből áll. Ez utóbbi egy 0--100 közötti, előre aggregált kompatibilitási pontszám, valószínűleg UKLKSS-alapú HLA-mismatch érték.
 
 A recipiens-oldal (recipients) tartalmazza a cPRA mezőt (kalkulált PRA-érték, 0 és 1 között), a bloodtype mezőt, valamint a hasBloodCompatibleDonor jelzőt, amely azt mutatja, van-e vércsoportilag kompatibilis donora az adott recipiensnek.
 

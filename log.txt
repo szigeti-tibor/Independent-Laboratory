@@ -4,3 +4,13 @@
     scip
 
     kérdések összegyűjtése
+
+04.28.
+    összefoglalás a kérdésekhez
+    gráf leírása
+        bio-paraméterek, élsűlyok, hossz, megoldott
+        erdős-rényi modell, p küszöb
+    adatbővítés
+        városok/távolságok felvétele
+            térképen ábrázolni
+        vele és nélküle, összehasonlítás
